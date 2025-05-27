@@ -4,11 +4,493 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toko Buku Online - BukuKita</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* CSS sebelumnya tetap sama */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .logo p {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .logo i {
+            margin-right: 10px;
+        }
+
+        .search-cart {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            width: 70%;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .search-box button {
+            padding: 10px 15px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+        }
+
+        .cart {
+            position: relative;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        /* Navigation Styles */
+        nav {
+            background-color: #34495e;
+            padding: 15px 0;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #e74c3c;
+        }
+
+        /* Banner Styles */
+        .banner {
+            margin: 30px 0;
+        }
+
+        .banner img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Categories Styles */
+        .categories {
+            margin: 40px 0;
+        }
+
+        .categories h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        .category-list {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .category-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 18%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .category-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-item i {
+            font-size: 30px;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .category-item span {
+            font-weight: 500;
+        }
+
+        /* Featured Books Styles */
+        .featured-books {
+            margin: 40px 0;
+        }
+
+        .featured-books h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+
+        .book-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .book-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .book-card h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        .book-card .author {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .book-card .price {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            padding: 8px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background-color: #e74c3c;
+        }
+
+        /* Promo Section Styles */
+        .promo-section {
+            display: flex;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 40px 0;
+        }
+
+        .promo-text {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .promo-text h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .promo-text p {
+            margin-bottom: 20px;
+        }
+
+        .shop-now {
+            padding: 10px 20px;
+            background-color: white;
+            color: #e74c3c;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .shop-now:hover {
+            background-color: #f5f5f5;
+        }
+
+        .promo-image {
+            flex: 1;
+        }
+
+        .promo-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0 0;
+        }
+
+        .footer-section {
+            margin-bottom: 30px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .footer-section i {
+            margin-right: 10px;
+            color: #e74c3c;
+        }
+
+        .social-media {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-media a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+
+        .social-media a:hover {
+            color: #e74c3c;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 15px 0;
+            background-color: #1a252f;
+            font-size: 14px;
+        }
+
+        /* Cart Modal Styles */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .close-cart {
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            padding: 15px;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+
+        .cart-item img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 15px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: #e74c3c;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-remove {
+            color: #e74c3c;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .cart-total {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        .checkout-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .search-cart {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-box {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+            .category-list {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .category-item {
+                width: 48%;
+                margin-bottom: 10px;
+            }
+
+            .promo-section {
+                flex-direction: column;
+            }
+
+            .footer-section {
+                margin-bottom: 20px;
+            }
+
+            .cart-modal {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .category-item {
+                width: 100%;
+            }
+
+            .book-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Kode HTML dari contoh sebelumnya -->
     <header>
         <div class="container">
             <div class="logo">
@@ -20,7 +502,7 @@
                     <input type="text" placeholder="Cari buku...">
                     <button><i class="fas fa-search"></i></button>
                 </div>
-                <div class="cart">
+                <div class="cart" id="cart-icon">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count">0</span>
                 </div>
@@ -76,60 +558,60 @@
             <h2>Buku Terbaru</h2>
             <div class="book-list">
                 <div class="book-card">
-                    <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
+                    <img src="" alt="Cover Buku">
                     <h3>Belajar Pemrograman Dasar</h3>
                     <p class="author">Mardi Turnip Abdi Dharma</p>
-                    <p class="price">Rp 57.000.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 57.000</p>
+                    <button class="add-to-cart" data-id="1" data-title="Belajar Pemrograman Dasar" data-price="57000" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
                     <h3>JavaScript untuk Pemula</h3>
                     <p class="author">Jubilee Enterprise</p>
-                    <p class="price">Rp 66.500.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 66.500</p>
+                    <button class="add-to-cart" data-id="2" data-title="JavaScript untuk Pemula" data-price="66500" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
                     <h3>Desain Web Modern</h3>
                     <p class="author">Wawa Wikusna</p>
-                    <p class="price">Rp 102.000.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 102.000</p>
+                    <button class="add-to-cart" data-id="3" data-title="Desain Web Modern" data-price="102000" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
                     <h3>Algorithm dan Struktur Data</h3>
                     <p class="author">Yuniansyah</p>
-                    <p class="price">Rp 30.000.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 30.000</p>
+                    <button class="add-to-cart" data-id="4" data-title="Algorithm dan Struktur Data" data-price="30000" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
                     <h3>Python untuk Data Science</h3>
                     <p class="author">Dr. Teguh Wahyono</p>
-                    <p class="price">Rp 27.250.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 27.250</p>
+                    <button class="add-to-cart" data-id="5" data-title="Python untuk Data Science" data-price="27250" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
-                    <h3>Cantik Itu Luka </h3>
+                    <h3>Cantik Itu Luka</h3>
                     <p class="author">Eka Kurniawan</p>
-                    <p class="price">Rp 93.750.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 93.750</p>
+                    <button class="add-to-cart" data-id="6" data-title="Cantik Itu Luka" data-price="93750" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
-                    <h3>Etika Bisnis </h3>
+                    <h3>Etika Bisnis</h3>
                     <p class="author">Informatika</p>
-                    <p class="price">Rp 92.000.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 92.000</p>
+                    <button class="add-to-cart" data-id="7" data-title="Etika Bisnis" data-price="92000" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
                 <div class="book-card">
                     <img src="https://via.placeholder.com/150x200" alt="Cover Buku">
-                    <h3>Dongeng Sebelum Tidur </h3>
+                    <h3>Dongeng Sebelum Tidur</h3>
                     <p class="author">Dian Dahlia</p>
-                    <p class="price">Rp 50.150.00</p>
-                    <button class="add-to-cart">Tambah ke Keranjang</button>
+                    <p class="price">Rp 50.150</p>
+                    <button class="add-to-cart" data-id="8" data-title="Dongeng Sebelum Tidur" data-price="50150" data-image="https://via.placeholder.com/150x200">Tambah ke Keranjang</button>
                 </div>
             </div>
         </section>
@@ -146,30 +628,265 @@
         </section>
     </main>
 
-    <footer>
-        <div class="container">
-            <div class="footer-section">
-                <h3>Tentang BukuKita</h3>
-                <p>BukuKita adalah toko buku online yang menyediakan berbagai macam buku dari berbagai kategori dengan harga terjangkau.</p>
+    <div class="overlay" id="overlay"></div>
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-header">
+            <h3>Keranjang Belanja</h3>
+            <span class="close-cart" id="close-cart">&times;</span>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <!-- Cart items will be added here dynamically -->
+        </div>
+        <div class="cart-total">
+            Total: <span id="cart-total">Rp 0</span>
+        </div>
+        
+        <!-- Checkout Form (hidden by default) -->
+        <div class="checkout-form" id="checkout-form">
+            <h4>Formulir Pemesanan</h4>
+            <div class="form-group">
+                <label for="name">Nama Lengkap</label>
+                <input type="text" id="name" required>
             </div>
-            <div class="footer-section">
-                <h3>Kontak Kami</h3>
-                <p><i class="fas fa-envelope"></i> info@bukukita.com</p>
-                <p><i class="fas fa-phone"></i> (021) 12345678</p>
-                <p><i class="fas fa-map-marker-alt"></i> Jl. Buku No. 123, Jakarta</p>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required>
             </div>
-            <div class="footer-section">
-                <h3>Ikuti Kami</h3>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
+            <div class="form-group">
+                <label for="phone">Nomor Telepon</label>
+                <input type="tel" id="phone" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Alamat Pengiriman</label>
+                <textarea id="address" required></textarea>
+            </div>
+            <div class="form-buttons">
+                <button class="submit-order" id="submit-order">Pesan Sekarang</button>
+                <button class="cancel-order" id="cancel-order">Batal</button>
             </div>
         </div>
-        <div class="copyright">
-            <p>&copy; 2023 BukuKita. All Rights Reserved.</p>
+        
+        <!-- Success Message (hidden by default) -->
+        <div class="success-message" id="success-message">
+            <i class="fas fa-check-circle"></i>
+            <h3>Pesanan Berhasil!</h3>
+            <p>Terima kasih telah berbelanja di BUKU INFORMASI</p>
+            <p>Detail pesanan telah dikirim ke email Anda</p>
         </div>
-    </footer>
+        
+        <!-- Checkout Button (shown when cart has items) -->
+        <button class="checkout-btn" id="checkout-btn">Checkout</button>
+    </div>
+
+    <script>
+        // Cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cartIcon = document.getElementById('cart-icon');
+            const cartModal = document.getElementById('cart-modal');
+            const closeCart = document.getElementById('close-cart');
+            const overlay = document.getElementById('overlay');
+            const cartItemsContainer = document.getElementById('cart-items');
+            const cartTotal = document.getElementById('cart-total');
+            const cartCount = document.querySelector('.cart-count');
+            const addToCartButtons = document.querySelectorAll('.add-to-cart');
+            const checkoutBtn = document.getElementById('checkout-btn');
+            const checkoutForm = document.getElementById('checkout-form');
+            const cancelOrderBtn = document.getElementById('cancel-order');
+            const submitOrderBtn = document.getElementById('submit-order');
+            const successMessage = document.getElementById('success-message');
+            
+            let cart = [];
+            
+            // Open cart modal
+            cartIcon.addEventListener('click', function() {
+                cartModal.style.display = 'block';
+                overlay.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Close cart modal
+            closeCart.addEventListener('click', function() {
+                cartModal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                // Reset form view
+                checkoutForm.style.display = 'none';
+                successMessage.style.display = 'none';
+                checkoutBtn.style.display = 'block';
+            });
+            
+            // Close when clicking on overlay
+            overlay.addEventListener('click', function() {
+                cartModal.style.display = 'none';
+                overlay.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                // Reset form view
+                checkoutForm.style.display = 'none';
+                successMessage.style.display = 'none';
+                checkoutBtn.style.display = 'block';
+            });
+            
+            // Add to cart functionality
+            addToCartButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = button.getAttribute('data-id');
+                    const title = button.getAttribute('data-title');
+                    const price = parseInt(button.getAttribute('data-price'));
+                    const image = button.getAttribute('data-image');
+                    
+                    // Check if item already in cart
+                    const existingItem = cart.find(item => item.id === id);
+                    
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                    } else {
+                        cart.push({
+                            id,
+                            title,
+                            price,
+                            image,
+                            quantity: 1
+                        });
+                    }
+                    
+                    updateCart();
+                    
+                    // Add animation
+                    cartCount.style.transform = 'scale(1.5)';
+                    setTimeout(() => {
+                        cartCount.style.transform = 'scale(1)';
+                    }, 300);
+                });
+            });
+            
+            // Checkout button click
+            checkoutBtn.addEventListener('click', function() {
+                checkoutBtn.style.display = 'none';
+                checkoutForm.style.display = 'block';
+            });
+            
+            // Cancel order button
+            cancelOrderBtn.addEventListener('click', function() {
+                checkoutForm.style.display = 'none';
+                checkoutBtn.style.display = 'block';
+            });
+            
+            // Submit order button
+            submitOrderBtn.addEventListener('click', function() {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const address = document.getElementById('address').value;
+                
+                // Simple validation
+                if (!name || !email || !phone || !address) {
+                    alert('Harap lengkapi semua data pemesanan!');
+                    return;
+                }
+                
+                // Create order data
+                const order = {
+                    customer: {
+                        name,
+                        email,
+                        phone,
+                        address
+                    },
+                    items: [...cart],
+                    total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                    date: new Date().toISOString(),
+                    status: 'pending'
+                };
+                
+                // In a real application, you would send this to a server
+                // For demo, we'll store in localStorage and show success message
+                saveOrder(order);
+                
+                // Show success message
+                checkoutForm.style.display = 'none';
+                successMessage.style.display = 'block';
+                
+                // Clear cart
+                cart = [];
+                updateCart();
+                
+                // Reset form
+                document.getElementById('name').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('address').value = '';
+            });
+            
+            // Function to save order (simulated)
+            function saveOrder(order) {
+                // In a real app, you would send this to your backend
+                // For demo, we'll store in localStorage
+                let orders = JSON.parse(localStorage.getItem('bookOrders') || '[]');
+                orders.push(order);
+                localStorage.setItem('bookOrders', JSON.stringify(orders));
+                
+                console.log('Order saved:', order);
+                // In production, you would likely send this to your server via AJAX
+                // Example:
+                // fetch('/api/orders', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(order)
+                // })
+                // .then(response => response.json())
+                // .then(data => console.log('Success:', data))
+                // .catch(error => console.error('Error:', error));
+            }
+            
+            // Update cart UI
+            function updateCart() {
+                cartItemsContainer.innerHTML = '';
+                let total = 0;
+                let totalCount = 0;
+                
+                if (cart.length === 0) {
+                    cartItemsContainer.innerHTML = '<div class="empty-cart-message"><i class="fas fa-book-open" style="font-size: 30px; margin-bottom: 10px;"></i><p>Keranjang belanja kosong</p></div>';
+                    checkoutBtn.style.display = 'none';
+                } else {
+                    cart.forEach(item => {
+                        total += item.price * item.quantity;
+                        totalCount += item.quantity;
+                        
+                        const cartItemElement = document.createElement('div');
+                        cartItemElement.className = 'cart-item';
+                        cartItemElement.innerHTML = `
+                            <img src="${item.image}" alt="${item.title}">
+                            <div class="cart-item-details">
+                                <div class="cart-item-title">${item.title}</div>
+                                <div class="cart-item-price">Rp ${item.price.toLocaleString()}</div>
+                                <div class="cart-item-quantity">Jumlah: ${item.quantity}</div>
+                                <div class="cart-item-remove" data-id="${item.id}">Hapus</div>
+                            </div>
+                        `;
+                        cartItemsContainer.appendChild(cartItemElement);
+                    });
+                    
+                    checkoutBtn.style.display = 'block';
+                }
+                
+                // Update total and count
+                cartTotal.textContent = `Rp ${total.toLocaleString()}`;
+                cartCount.textContent = totalCount;
+                
+                // Add event listeners to remove buttons
+                document.querySelectorAll('.cart-item-remove').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        cart = cart.filter(item => item.id !== id);
+                        updateCart();
+                    });
+                });
+            }
+            
+            // Initialize cart
+            updateCart();
+        });
+    </script>
 </body>
 </html>
+
